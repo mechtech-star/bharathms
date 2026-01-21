@@ -24,7 +24,7 @@ const AnimatedHeading = ({ text, className, variants }: { text: string; classNam
 
     const letter = {
         hidden: { opacity: 0, y: 10, rotateX: 12, scale: 0.98 },
-        visible: { opacity: 1, y: 0, rotateX: 0, scale: 1, transition: { duration: 0.26, ease: [0.22, 0.8, 0.36, 1] } }
+        visible: { opacity: 1, y: 0, rotateX: 0, scale: 1, transition: { duration: 0.26, ease: [0.22, 0.8, 0.36, 1] as any } }
     };
 
     const wordContainer = {
