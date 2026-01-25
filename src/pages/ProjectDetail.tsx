@@ -42,7 +42,7 @@ const ProjectDetail = () => {
           className="mb-16"
         >
           <motion.div variants={fadeInUp}>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight tracking-tight">
               WebXR Spatial Collaboration Platform
             </h1>
           </motion.div>
@@ -104,7 +104,7 @@ const ProjectDetail = () => {
           variants={staggerContainer}
           className="mb-16"
         >
-          <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl font-bold mb-8 tracking-tight">
+          <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl font-heading font-bold mb-8 tracking-tight">
             Problem Statement
           </motion.h2>
           <motion.div variants={fadeInUp}>
@@ -129,7 +129,7 @@ const ProjectDetail = () => {
           variants={staggerContainer}
           className="mb-16"
         >
-          <motion.h2 variants={fadeInUp} className="text-3xl font-bold mb-6">
+          <motion.h2 variants={fadeInUp} className="text-3xl font-heading font-bold mb-6">
             System Overview
           </motion.h2>
           
@@ -163,13 +163,13 @@ const ProjectDetail = () => {
           variants={staggerContainer}
           className="mb-16"
         >
-          <motion.h2 variants={fadeInUp} className="text-3xl font-bold mb-6">
+          <motion.h2 variants={fadeInUp} className="text-3xl font-heading font-bold mb-6">
             Key Design Decisions
           </motion.h2>
 
           <motion.div variants={fadeInUp} className="space-y-4">
             <Card className="p-6">
-              <h3 className="font-semibold text-lg mb-2">WebXR Over Native</h3>
+              <h3 className="font-heading font-semibold text-lg mb-2">WebXR Over Native</h3>
               <p className="text-muted-foreground">
                 Choosing WebXR reduced deployment friction massively. No app store approval, instant updates, 
                 and users join via URL. Trade-off: slightly lower performance ceiling, but worth it for accessibility.
@@ -177,7 +177,7 @@ const ProjectDetail = () => {
             </Card>
 
             <Card className="p-6">
-              <h3 className="font-semibold text-lg mb-2">Hybrid WebSocket + WebRTC</h3>
+              <h3 className="font-heading font-semibold text-lg mb-2">Hybrid WebSocket + WebRTC</h3>
               <p className="text-muted-foreground">
                 WebSocket handles signaling and state sync. WebRTC data channels handle high-frequency positional 
                 updates. This hybrid approach balances reliability with low latency.
@@ -185,7 +185,7 @@ const ProjectDetail = () => {
             </Card>
 
             <Card className="p-6">
-              <h3 className="font-semibold text-lg mb-2">Client-Side Prediction</h3>
+              <h3 className="font-heading font-semibold text-lg mb-2">Client-Side Prediction</h3>
               <p className="text-muted-foreground">
                 Movements feel instant locally, reconciled with server state on the next tick. This makes 
                 200ms+ latency tolerable while maintaining synchronized state.
@@ -193,7 +193,7 @@ const ProjectDetail = () => {
             </Card>
 
             <Card className="p-6">
-              <h3 className="font-semibold text-lg mb-2">Minimal Asset Complexity</h3>
+              <h3 className="font-heading font-semibold text-lg mb-2">Minimal Asset Complexity</h3>
               <p className="text-muted-foreground">
                 All 3D models are sub-50k polygons with baked lighting. Textures are compressed. This ensures 
                 smooth 72fps even on Quest 2 with 8 simultaneous users.
@@ -212,13 +212,13 @@ const ProjectDetail = () => {
           variants={staggerContainer}
           className="mb-16"
         >
-          <motion.h2 variants={fadeInUp} className="text-3xl font-bold mb-6">
+          <motion.h2 variants={fadeInUp} className="text-3xl font-heading font-bold mb-6">
             3D & Asset Considerations
           </motion.h2>
 
           <motion.div variants={fadeInUp} className="space-y-6">
             <div>
-              <h3 className="font-semibold text-lg mb-2">Mesh Optimization</h3>
+              <h3 className="font-heading font-semibold text-lg mb-2">Mesh Optimization</h3>
               <p className="text-muted-foreground">
                 All meshes processed through geometry compression. Shared geometries instanced. 
                 Dynamic objects use simplified collision meshes separate from visual meshes.
@@ -226,7 +226,7 @@ const ProjectDetail = () => {
             </div>
 
             <div>
-              <h3 className="font-semibold text-lg mb-2">Material Pipeline</h3>
+              <h3 className="font-heading font-semibold text-lg mb-2">Material Pipeline</h3>
               <p className="text-muted-foreground">
                 Standard PBR materials with atlas-packed textures. Normal maps only on hero assets. 
                 All materials use the same shader variant to reduce state changes.
@@ -234,7 +234,7 @@ const ProjectDetail = () => {
             </div>
 
             <div>
-              <h3 className="font-semibold text-lg mb-2">Animation System</h3>
+              <h3 className="font-heading font-semibold text-lg mb-2">Animation System</h3>
               <p className="text-muted-foreground">
                 Hand tracking animations use blend shapes for finger poses. Avatar bodies use skeletal 
                 animation with IK for foot placement. Animations compressed using keyframe reduction.
@@ -242,7 +242,7 @@ const ProjectDetail = () => {
             </div>
 
             <div>
-              <h3 className="font-semibold text-lg mb-2">Performance Budget</h3>
+              <h3 className="font-heading font-semibold text-lg mb-2">Performance Budget</h3>
               <p className="text-muted-foreground">
                 Target: 72fps on Quest 2. Budget: 500k triangles total scene, 100 draw calls max, 
                 2ms physics, 5ms networking per frame. Profiled continuously during development.
@@ -261,13 +261,13 @@ const ProjectDetail = () => {
           variants={staggerContainer}
           className="mb-16"
         >
-          <motion.h2 variants={fadeInUp} className="text-3xl font-bold mb-6">
+          <motion.h2 variants={fadeInUp} className="text-3xl font-heading font-bold mb-6">
             Outcomes & Learnings
           </motion.h2>
 
           <motion.div variants={fadeInUp}>
             <Card className="p-6 mb-6 bg-primary/5 border-primary/20">
-              <h3 className="font-semibold text-lg mb-4">What Worked</h3>
+              <h3 className="font-heading font-semibold text-lg mb-4">What Worked</h3>
               <ul className="space-y-2 text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
@@ -289,7 +289,7 @@ const ProjectDetail = () => {
             </Card>
 
             <Card className="p-6 bg-muted/50">
-              <h3 className="font-semibold text-lg mb-4">What Would Improve</h3>
+              <h3 className="font-heading font-semibold text-lg mb-4">What Would Improve</h3>
               <ul className="space-y-2 text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>

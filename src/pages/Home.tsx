@@ -111,43 +111,87 @@ const Home = () => {
         }
     };
 
+    // Capability animations: staggered entrance + punchy item animation
+    const capabilityContainer = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.05 } }
+    };
+
+    const capabilityItem = {
+        hidden: { opacity: 0, y: 28, rotateX: 6, scale: 0.96 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            scale: 1,
+            transition: { duration: 0.48, ease: [0.22, 0.8, 0.36, 1] as any }
+        }
+    };
+
+    // Featured projects card animation: springy entrance + image reveal
+    const projectCard = {
+        hidden: { opacity: 0, y: 18, scale: 0.985, rotateX: 6 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            rotateX: 0,
+            transition: { type: 'spring', stiffness: 260, damping: 26 }
+        }
+    };
+
+    const projectImage = {
+        hidden: { scale: 1.06, opacity: 0 },
+        visible: { scale: 1, opacity: 1, transition: { duration: 0.8, ease: [0.2, 0.8, 0.2, 1] } }
+    };
+
     const capabilities = [
         {
-            icon: <Boxes className="w-8 h-8" />,
-            title: "XR Engineering",
+            icon: <Boxes className="w-10 h-10" />,
+            title: "XR Applications",
             description: "WebXR systems, Unity XR platforms, and spatial computing solutions"
         },
         {
-            icon: <Brain className="w-8 h-8" />,
-            title: "Intelligent Systems",
-            description: "Simulation architectures, data-driven decision making, and computational models"
+            icon: <Brain className="w-10 h-10" />,
+            title: "XR Systems Engineering",
+            description: "Simulation architectures and data-driven logic for real-time XR systems"
         },
         {
-            icon: <Box className="w-8 h-8" />,
+            icon: <Box className="w-10 h-10" />,
             title: "3D Design Literacy",
             description: "Understanding meshes, materials, animations, and real-time performance constraints"
         },
         {
-            icon: <Layers className="w-8 h-8" />,
+            icon: <Layers className="w-10 h-10" />,
             title: "Architecture Thinking",
             description: "System design, component orchestration, and scalable platform engineering"
         }
+    ];
+
+    const capabilityImages = [
+        '/XR_001.jpeg',
+        '/XR_002.jpg',
+        '/XR_003.jpeg',
+        '/XR_004.jpg'
     ];
 
     const featuredProjects = [
         {
             title: "WebXR Spatial Collaboration",
             problem: "Enable real-time multi-user collaboration in browser-based XR environments",
+            image: '/webxr.jpg',
             tags: ["WebXR", "Three.js", "WebSocket", "Spatial Audio"]
         },
         {
             title: "Unity XR Training Platform",
             problem: "Build immersive training simulations with performance analytics and adaptivity",
+            image: '/Unity.webp',
             tags: ["Unity", "XR Toolkit", "ML Agents", "Analytics"]
         },
         {
             title: "Procedural Environment System",
             problem: "Generate optimized 3D environments at runtime with LOD management",
+            image: '/industry machines.jpg',
             tags: ["Procedural Gen", "Performance", "Asset Pipeline"]
         }
     ];
@@ -164,7 +208,7 @@ const Home = () => {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative overflow-hidden py-12 md:py-32">
+            <section className="relative overflow-hidden py-12 md:py-32 pb-8 md:pb-16">
                 {/* Animated Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-radial from-primary/25 via-primary/15 to-primary/5 dark:from-primary/30 dark:via-primary/20 dark:to-primary/10" />
                 <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 via-transparent to-accent/10 dark:from-secondary/15 dark:via-transparent dark:to-accent/15" />
@@ -181,6 +225,9 @@ const Home = () => {
 
                 {/* Radial mask to softly fade the grid toward edges */}
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
+
+                {/* Smooth fade to next section */}
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-background" />
 
                 <motion.div
                     className="container mx-auto px-4 relative z-10"
@@ -244,41 +291,79 @@ const Home = () => {
             </section>
 
             {/* Capability Overview */}
-            <section className="py-20 md:py-32">
+            <section className="pt-8 md:pt-12 pb-8 md:pb-12">
                 <div className="container mx-auto px-4">
+
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
-                        variants={staggerContainer}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                        variants={capabilityContainer}
+                        className="flex sm:grid sm:grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory px-4 sm:px-0"
                     >
                         {capabilities.map((capability, index) => (
-                            <motion.div key={index} variants={fadeInUp}>
-                                <Card className="p-6 h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                                    <div className="text-primary mb-4">{capability.icon}</div>
-                                    <h3 className="text-xl font-semibold mb-3 tracking-tight">{capability.title}</h3>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">{capability.description}</p>
+                            <motion.div
+                                key={index}
+                                variants={capabilityItem}
+                                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                                className="snap-start flex-shrink-0 w-[72%] sm:w-auto"
+                            >
+                                <Card
+                                    className="p-4 sm:p-6 h-full flex flex-col relative overflow-hidden rounded-3xl"
+                                    style={{ aspectRatio: '9 / 16' }}
+                                >
+                                    {/* Background Image */}
+                                    <div
+                                        className="absolute inset-0 z-0"
+                                        style={{
+                                            backgroundImage: `url(${capabilityImages[index]})`,
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center'
+                                        }}
+                                    />
+
+                                    {/* Overlay for readability (subtle top, stronger bottom) */}
+                                    <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/30 to-black/70 dark:to-black/70" />
+
+                                    {/* Content: icon at top (centered), text anchored to bottom and centered */}
+                                    <div className="relative z-10 flex flex-col h-full">
+                                        <div className="pt-2 text-start pb-2">
+                                            <h3 className="font-heading text-xl md:text-2xl font-semibold mb-1 tracking-tight text-white">{capability.title}</h3>
+                                            <p className="text-base md:text-lg text-white/90 leading-relaxed">{capability.description}</p>
+                                        </div>
+                                    </div>
                                 </Card>
                             </motion.div>
                         ))}
                     </motion.div>
+
+                    {/* Left-aligned link button to About page */}
+                    <div className="container mx-auto mt-6">
+                        <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="max-w-4xl mx-auto">
+                            <div className="text-center">
+                                <a href="/about">
+                                    <Button variant="link" size="lg">
+                                        Learn more about me
+                                    </Button>
+                                </a>
+                            </div>
+                        </motion.div>
+                    </div>
+
                 </div>
             </section>
 
-            <Separator className="container mx-auto" />
-
             {/* Featured Projects */}
-            <section className="py-20 md:py-32 bg-muted/30">
+            <section className="py-12 md:py-20 bg-muted/30">
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={fadeInUp}
-                        className="text-center mb-16"
+                        className="text-center mb-12"
                     >
-                        <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">Featured Projects</h2>
+                        <h2 className="font-heading text-3xl md:text-5xl font-bold mb-3 tracking-tight">Featured Projects</h2>
                         <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                             Real-world problems solved with XR systems thinking
                         </p>
@@ -289,89 +374,152 @@ const Home = () => {
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={staggerContainer}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                     >
                         {featuredProjects.map((project, index) => (
-                            <motion.div key={index} variants={fadeInUp}>
-                                <Card className="p-6 h-full flex flex-col hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                                    <div className="aspect-video bg-muted rounded-xl flex items-center justify-center mb-4">
-                                        <span className="text-muted-foreground">Image Placeholder</span>
-                                    </div>
+                            <motion.div
+                                key={index}
+                                variants={projectCard}
+                                whileHover={{ y: -6, scale: 1.02 }}
+                                transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+                                className="flex"
+                            >
+                                <Card className="p-4 w-full flex flex-col hover:shadow-lg transition-all duration-300">
+                                    <motion.div className="aspect-[16/9] rounded-xl flex items-center justify-center mb-4 overflow-hidden bg-muted/10" variants={projectImage}>
+                                        {project.image ? (
+                                            <motion.img
+                                                src={project.image}
+                                                alt={project.title}
+                                                className="w-full h-full object-cover block"
+                                                variants={projectImage}
+                                            />
+                                        ) : (
+                                            <span className="text-muted-foreground">Image Placeholder</span>
+                                        )}
+                                    </motion.div>
 
-                                    <h3 className="text-xl font-semibold mb-3 tracking-tight leading-tight">{project.title}</h3>
-                                    <p className="text-sm text-muted-foreground mb-4 grow leading-relaxed">{project.problem}</p>
+                                    <h3 className="font-heading text-2xl md:text-xl font-semibold mb-2 tracking-tight leading-snug">{project.title}</h3>
+                                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{project.problem}</p>
 
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         {project.tags.map((tag, i) => (
-                                            <Badge key={i} variant="secondary">{tag}</Badge>
+                                            <Badge key={i} variant="secondary" className="px-3 py-1 text-sm">{tag}</Badge>
                                         ))}
                                     </div>
 
-                                    <Button variant="outline" className="w-full">
-                                        View Case Study
-                                        <ArrowRight className="ml-2 w-4 h-4" />
-                                    </Button>
+                                    <div className="mt-auto">
+                                        <Button variant="outline" className="w-full">
+                                            View Case Study
+                                            <ArrowRight className="ml-2 w-4 h-4" />
+                                        </Button>
+                                    </div>
                                 </Card>
                             </motion.div>
                         ))}
                     </motion.div>
+
+                    <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="mt-8 text-center">
+                        <a href="/projects">
+                            <Button size="lg" variant="outline">
+                                View All Projects
+                                <ArrowRight className="ml-2 w-4 h-4" />
+                            </Button>
+                        </a>
+                    </motion.div>
                 </div>
             </section>
 
-            <Separator className="container mx-auto" />
-
             {/* How I Think */}
-            <section className="py-20 md:py-32">
+            <section className="py-10 md:py-16">
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={staggerContainer}
-                        className="max-w-3xl mx-auto"
+                        className="mx-auto"
                     >
                         <motion.h2
                             variants={fadeInUp}
-                            className="text-3xl md:text-5xl font-bold mb-12 text-center tracking-tight"
+                            className="text-3xl md:text-5xl font-heading font-bold mb-4 text-center tracking-tight"
                         >
-                            How I Think
+                            <h2 className="font-heading text-3xl md:text-5xl font-bold mb-3 tracking-tight">How I Think</h2>
                         </motion.h2>
 
-                        <motion.div variants={fadeInUp} className="space-y-8">
-                            <div className="flex items-start gap-4">
-                                <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                                <p className="text-lg">
-                                    I start with the problem, not the technology. What's the real constraint?
-                                </p>
-                            </div>
+                        <motion.p variants={fadeInUp} className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+                            A concise approach that blends systems thinking, 3D craft, and pragmatic engineering to solve real problems.
+                        </motion.p>
 
-                            <div className="flex items-start gap-4">
-                                <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                                <p className="text-lg">
-                                    I think in systems — how components interact, where bottlenecks emerge, how to scale.
-                                </p>
-                            </div>
+                        <motion.div variants={staggerContainer} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                            <motion.div variants={capabilityItem} className="bg-background/60 dark:bg-background/40 border p-8 rounded-3xl shadow-sm flex flex-col h-full">
+                                <div className="flex items-start gap-5">
+                                    <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-tr from-primary/10 to-primary/5 text-primary flex-shrink-0">
+                                        <Sparkles className="w-6 h-6" />
+                                    </div>
+                                    <div className="flex flex-col flex-grow">
+                                        <h3 className="font-heading text-lg md:text-xl font-semibold mb-2 leading-snug">Problem First</h3>
+                                        <p className="text-base text-muted-foreground mt-2 leading-relaxed">I start with constraints and outcomes, not tools, focusing on the real user need and measurable goals.</p>
+                                        <div className="flex gap-2 mt-4">
+                                            <Badge variant="secondary">Discovery</Badge>
+                                            <Badge variant="secondary">Research</Badge>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
 
-                            <div className="flex items-start gap-4">
-                                <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                                <p className="text-lg">
-                                    I understand 3D assets deeply — polygon budgets, material complexity, animation pipelines.
-                                </p>
-                            </div>
+                            <motion.div variants={capabilityItem} className="bg-background/60 dark:bg-background/40 border p-8 rounded-3xl shadow-sm flex flex-col h-full">
+                                <div className="flex items-start gap-5">
+                                    <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-tr from-primary/10 to-primary/5 text-primary flex-shrink-0">
+                                        <Brain className="w-6 h-6" />
+                                    </div>
+                                    <div className="flex flex-col flex-grow">
+                                        <h3 className="font-heading text-lg md:text-xl font-semibold mb-2 leading-snug">Systems Thinking</h3>
+                                        <p className="text-base text-muted-foreground mt-2 leading-relaxed">Designing components with clear interfaces so systems scale predictably and failures are contained.</p>
+                                        <div className="flex gap-2 mt-4">
+                                            <Badge variant="secondary">Architecture</Badge>
+                                            <Badge variant="secondary">Reliability</Badge>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
 
-                            <div className="flex items-start gap-4">
-                                <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                                <p className="text-lg">
-                                    I prototype quickly, test early, and optimize based on actual performance data.
-                                </p>
-                            </div>
+                            <motion.div variants={capabilityItem} className="bg-background/60 dark:bg-background/40 border p-8 rounded-3xl shadow-sm flex flex-col h-full">
+                                <div className="flex items-start gap-5">
+                                    <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-tr from-primary/10 to-primary/5 text-primary flex-shrink-0">
+                                        <Box className="w-6 h-6" />
+                                    </div>
+                                    <div className="flex flex-col flex-grow">
+                                        <h3 className="font-heading text-lg md:text-xl font-semibold mb-2 leading-snug">3D Craft</h3>
+                                        <p className="text-base text-muted-foreground mt-2 leading-relaxed">Practical knowledge of assets, LODs, and runtime performance to make immersive experiences realistic and efficient.</p>
+                                        <div className="flex gap-2 mt-4">
+                                            <Badge variant="secondary">Assets</Badge>
+                                            <Badge variant="secondary">Performance</Badge>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
 
-                            <div className="flex items-start gap-4">
-                                <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                                <p className="text-lg">
-                                    I care about the craft — clean architecture, maintainable code, and tools that empower teams.
-                                </p>
-                            </div>
+                            <motion.div variants={capabilityItem} className="bg-background/60 dark:bg-background/40 border p-8 rounded-3xl shadow-sm flex flex-col h-full">
+                                <div className="flex items-start gap-5">
+                                    <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-tr from-primary/10 to-primary/5 text-primary flex-shrink-0">
+                                        <Layers className="w-6 h-6" />
+                                    </div>
+                                    <div className="flex flex-col flex-grow">
+                                        <h3 className="font-heading text-lg md:text-xl font-semibold mb-2 leading-snug">Rapid Iteration</h3>
+                                        <p className="text-base text-muted-foreground mt-2 leading-relaxed">Prototype quickly, validate early, then refine, balancing curiosity with measurable improvements.</p>
+                                        <div className="flex gap-2 mt-4">
+                                            <Badge variant="secondary">Prototyping</Badge>
+                                            <Badge variant="secondary">Testing</Badge>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+
+                        <motion.div variants={fadeInUp} className="mt-8 text-center">
+                            <a href="/about">
+                                <Button variant="link" size="lg">Read my process</Button>
+                            </a>
                         </motion.div>
                     </motion.div>
                 </div>
@@ -389,20 +537,22 @@ const Home = () => {
                         variants={fadeInUp}
                         className="max-w-3xl mx-auto"
                     >
-                        <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center tracking-tight">Tech Stack</h2>
+                        <h2 className="text-3xl md:text-5xl font-heading font-bold mb-12 text-center tracking-tight">Tech Stack</h2>
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div className="flex flex-wrap justify-center gap-4">
                             {techStack.map((tech, index) => (
                                 <motion.div
                                     key={index}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    initial={{ opacity: 0, y: 8 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ delay: index * 0.05 }}
-                                    className="flex items-center gap-3 p-4 rounded-lg bg-background border"
+                                    transition={{ delay: index * 0.04 }}
+                                    className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-primary/5 via-transparent to-secondary/5 border border-transparent shadow-sm hover:shadow-md transform-gpu transition-transform hover:scale-[1.04]"
                                 >
                                     <div className="text-primary">{tech.icon}</div>
-                                    <span className="font-medium">{tech.name}</span>
+                                    <span className={`font-semibold ${index % 3 === 0 ? 'text-lg md:text-xl' : 'text-base md:text-lg'}`}>
+                                        {tech.name}
+                                    </span>
                                 </motion.div>
                             ))}
                         </div>
@@ -413,7 +563,7 @@ const Home = () => {
             <Separator className="container mx-auto" />
 
             {/* Contact Teaser */}
-            <section className="py-20 md:py-32">
+            <section className="py-10 md:py-16">
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -421,11 +571,11 @@ const Home = () => {
                     variants={fadeInUp}
                     className="container mx-auto px-4 text-center"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">Let's Build Something</h2>
+                    <h2 className="text-3xl md:text-5xl font-heading font-bold mb-6 tracking-tight">Let's Build Something</h2>
                     <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-                        Whether it's a complex XR system, an intelligent platform, or an experimental prototype — I'm interested in hard problems.
+                        Whether it's a complex XR system, an intelligent platform, or an experimental prototype, I'm interested in hard problems.
                     </p>
-                    <Button size="lg" className="text-lg px-8">
+                    <Button size="lg">
                         Get In Touch
                         <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>

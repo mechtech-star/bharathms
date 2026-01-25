@@ -1,32 +1,51 @@
 import { useState } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
-import { Menu, Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
+import DesktopNavbar from '@/components/desktop-navbar';
 
 // Import pages
 import Home from './Home';
 import About from './About';
 import ProjectsIndex from './ProjectsIndex';
 import ProjectDetail from './ProjectDetail';
-import Experiments from './Experiments';
+// import Experiments from './Experiments'; // commented out for future use
 import Contact from './Contact';
 
 const Index = () => {
-  const [currentPage, setCurrentPage] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  // derive current page from location for nav highlighting
+  const pathname = location.pathname;
+  let currentPage = 'home';
+  if (pathname === '/' || pathname === '') currentPage = 'home';
+  else if (pathname.startsWith('/projects')) currentPage = 'projects';
+  // else if (pathname.startsWith('/experiments')) currentPage = 'experiments';
+  else if (pathname.startsWith('/about')) currentPage = 'about';
+  else if (pathname.startsWith('/contact')) currentPage = 'contact';
   const navigation = [
     { name: 'Home', id: 'home' },
-    { name: 'Projects', id: 'projects' },
-    { name: 'Experiments', id: 'experiments' },
+    // { name: 'Experiments', id: 'experiments' }, // commented out for future use
     { name: 'About', id: 'about' },
+        { name: 'Projects', id: 'projects' },
     { name: 'Contact', id: 'contact' }
   ];
 
   const handleNavigation = (pageId: string) => {
-    setCurrentPage(pageId);
+    // map page id to route
+    const map: Record<string, string> = {
+      home: '/',
+      projects: '/projects',
+      // experiments: '/experiments', // commented out for future use
+      about: '/about',
+      contact: '/contact'
+    };
+    const path = map[pageId] ?? '/';
+    navigate(path);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -41,8 +60,8 @@ const Index = () => {
         return <ProjectsIndex />;
       case 'project-detail':
         return <ProjectDetail />;
-      case 'experiments':
-        return <Experiments />;
+      // case 'experiments':
+      //   return <Experiments />;
       case 'contact':
         return <Contact />;
       default:
@@ -53,98 +72,34 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Navbar */}
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <button
-              onClick={() => handleNavigation('home')}
-              className="text-xl md:text-2xl font-bold hover:text-primary transition-colors tracking-tight"
-            >
-              Hi, I am Bharath
-            </button>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6 flex-1 justify-center">
-              {navigation.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavigation(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    currentPage === item.id
-                      ? 'text-primary'
-                      : 'text-muted-foreground'
-                  }`}
-                >
-                  {item.name}
-                </button>
-              ))}
-            </div>
 
-            {/* Mobile Menu Button */}
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild className="md:hidden">
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px]">
-                <div className="flex flex-col gap-4 mt-8">
-                  {navigation.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => handleNavigation(item.id)}
-                      className={`text-left text-lg font-medium transition-colors hover:text-primary ${
-                        currentPage === item.id
-                          ? 'text-primary'
-                          : 'text-muted-foreground'
-                      }`}
-                    >
-                      {item.name}
-                    </button>
-                  ))}
-                  
-                  <Separator className="my-4" />
-                  
-                  <div className="flex gap-4">
-                    <Button variant="ghost" size="icon" asChild>
-                      <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
-                        <Github className="h-5 w-5" />
-                      </a>
-                    </Button>
-                    <Button variant="ghost" size="icon" asChild>
-                      <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
-                        <Linkedin className="h-5 w-5" />
-                      </a>
-                    </Button>
-                    <Button variant="ghost" size="icon" asChild>
-                      <a href="mailto:your.email@example.com">
-                        <Mail className="h-5 w-5" />
-                      </a>
-                    </Button>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </motion.nav>
+      <DesktopNavbar
+        navigation={navigation}
+        currentPage={currentPage}
+        onNavigate={handleNavigation}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+      />
 
-      {/* Page Content with Transition */}
+      {/* Page Content with Transition (route-based) */}
       <AnimatePresence mode="wait">
         <motion.main
-          key={currentPage}
+          key={location.pathname}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          {renderPage()}
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<ProjectsIndex />} />
+            <Route path="/projects/:id" element={<ProjectDetail />} />
+            {/* <Route path="/experiments" element={<Experiments />} /> */}
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
         </motion.main>
       </AnimatePresence>
 

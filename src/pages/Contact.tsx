@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
+import { Mail, Github, Linkedin, ExternalLink, Phone } from 'lucide-react';
 
 const Contact = () => {
   const fadeInUp = {
@@ -20,24 +20,31 @@ const Contact = () => {
 
   const contactMethods = [
     {
+      icon: <Phone className="w-6 h-6" />,
+      label: "Phone",
+      value: "6381406329",
+      link: "tel:+916381406329",
+      description: "Preferred for quick messages or calls (WhatsApp)"
+    },
+    {
       icon: <Mail className="w-6 h-6" />,
       label: "Email",
-      value: "your.email@example.com",
-      link: "mailto:your.email@example.com",
+      value: "bharath.ms@zohomail.com",
+      link: "mailto:bharath.ms@zohomail.com",
       description: "Best for project inquiries and detailed discussions"
     },
     {
       icon: <Github className="w-6 h-6" />,
       label: "GitHub",
-      value: "@yourusername",
-      link: "https://github.com/yourusername",
+      value: "@mechtech-star",
+      link: "https://github.com/mechtech-star",
       description: "Check out my code, experiments, and open source contributions"
     },
     {
       icon: <Linkedin className="w-6 h-6" />,
       label: "LinkedIn",
-      value: "Your Name",
-      link: "https://linkedin.com/in/yourprofile",
+      value: "Bharath M S",
+      link: "https://www.linkedin.com/in/bharath-m-s-88ba17190/",
       description: "Connect professionally and see my work history"
     }
   ];
@@ -52,12 +59,12 @@ const Contact = () => {
           variants={staggerContainer}
           className="mb-16 text-center"
         >
-          <motion.h1 variants={fadeInUp} className="text-4xl md:text-6xl font-bold mb-8 tracking-tight leading-tight">
+          <motion.h1 variants={fadeInUp} className="text-4xl md:text-6xl font-heading font-bold mb-8 tracking-tight leading-tight">
             Let's Talk
           </motion.h1>
 
           <motion.p variants={fadeInUp} className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Interested in XR systems, simulation platforms, or complex engineering challenges? 
+            Interested in XR systems, simulation platforms, or complex engineering challenges?
             I'm open to discussing projects, collaborations, and interesting problems.
           </motion.p>
         </motion.section>
@@ -72,7 +79,7 @@ const Contact = () => {
           variants={staggerContainer}
           className="mb-16"
         >
-          <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-bold mb-8 tracking-tight">
+          <motion.h2 variants={fadeInUp} className="text-2xl md:text-3xl font-heading font-bold mb-8 tracking-tight">
             How to Reach Me
           </motion.h2>
 
@@ -80,7 +87,7 @@ const Contact = () => {
             {contactMethods.map((method, index) => (
               <motion.div key={index} variants={fadeInUp}>
                 <Card className="p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <a 
+                  <a
                     href={method.link}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -89,10 +96,10 @@ const Contact = () => {
                     <div className="text-primary mt-1 flex-shrink-0">
                       {method.icon}
                     </div>
-                    
+
                     <div className="flex-grow">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-lg font-semibold">{method.label}</h3>
+                        <h3 className="text-lg font-heading font-semibold">{method.label}</h3>
                         <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                       <p className="text-primary font-mono text-sm mb-2">{method.value}</p>
@@ -114,7 +121,7 @@ const Contact = () => {
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
         >
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold mb-6">
+          <motion.h2 variants={fadeInUp} className="text-2xl font-heading font-bold mb-6">
             What I'm Interested In
           </motion.h2>
 
@@ -125,12 +132,6 @@ const Contact = () => {
                   <span className="text-primary mt-1">•</span>
                   <span className="text-muted-foreground">
                     <strong className="text-foreground">XR platform development</strong> — Building systems that other developers build on
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-primary mt-1">•</span>
-                  <span className="text-muted-foreground">
-                    <strong className="text-foreground">Simulation and modeling</strong> — Complex systems that require computational rigor
                   </span>
                 </li>
                 <li className="flex items-start gap-3">

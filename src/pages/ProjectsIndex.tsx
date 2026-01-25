@@ -94,7 +94,7 @@ const ProjectsIndex = () => {
           variants={fadeInUp}
           className="mb-16 max-w-3xl"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight leading-tight">Projects</h1>
+          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 tracking-tight leading-tight">Projects</h1>
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
             XR systems, simulations, and experiments. Each project represents a real problem, 
             a considered approach, and concrete outcomes.
@@ -144,7 +144,7 @@ const ProjectsIndex = () => {
                 </div>
 
                 {/* Project Title */}
-                <h3 className="text-xl font-semibold mb-3 tracking-tight leading-tight">{project.title}</h3>
+                <h3 className="text-xl font-heading font-semibold mb-3 tracking-tight leading-tight">{project.title}</h3>
 
                 {/* Project Description */}
                 <p className="text-sm text-muted-foreground mb-4 grow leading-relaxed">
