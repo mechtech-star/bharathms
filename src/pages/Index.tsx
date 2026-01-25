@@ -50,25 +50,6 @@ const Index = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <Home />;
-      case 'about':
-        return <About />;
-      case 'projects':
-        return <ProjectsIndex />;
-      case 'project-detail':
-        return <ProjectDetail />;
-      // case 'experiments':
-      //   return <Experiments />;
-      case 'contact':
-        return <Contact />;
-      default:
-        return <Home />;
-    }
-  };
-
   return (
     <div className="min-h-screen bg-background">
       {/* Navbar */}

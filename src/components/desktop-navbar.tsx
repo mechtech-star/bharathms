@@ -23,12 +23,12 @@ const DesktopNavbar: React.FC<DesktopNavbarProps> = ({
 	setMobileMenuOpen,
 }) => {
 
-	// initialize theme from localStorage on mount
-	const [themeInitialized, setThemeInitialized] = useState(false);
-
 	// typing intro
 	const fullIntro = 'Hi, I am Bharath';
 	const [introIndex, setIntroIndex] = useState(0);
+
+	// theme state: keep a reactive flag so UI (icon) updates
+	const [isDark, setIsDark] = useState<boolean>(false);
 	useEffect(() => {
 		if (introIndex < fullIntro.length) {
 			const t = setTimeout(() => setIntroIndex((i) => i + 1), 80);
@@ -37,13 +37,32 @@ const DesktopNavbar: React.FC<DesktopNavbarProps> = ({
 		// keep the full text once finished
 	}, [introIndex]);
 
+	// initialize theme from localStorage on mount; default to system preference
 	useEffect(() => {
+		let mql: MediaQueryList | null = null;
 		try {
 			const stored = window.localStorage.getItem('theme');
-			if (stored === 'dark') document.documentElement.classList.add('dark');
-			else if (stored === 'light') document.documentElement.classList.remove('dark');
+			if (stored === 'dark') {
+				document.documentElement.classList.add('dark');
+				setIsDark(true);
+			} else if (stored === 'light') {
+				document.documentElement.classList.remove('dark');
+				setIsDark(false);
+			} else if (window.matchMedia) {
+				mql = window.matchMedia('(prefers-color-scheme: dark)');
+				const apply = (prefersDark: boolean) => {
+					if (prefersDark) document.documentElement.classList.add('dark');
+					else document.documentElement.classList.remove('dark');
+					setIsDark(prefersDark);
+				};
+				apply(mql.matches);
+				// listen for changes only when user hasn't chosen an explicit theme
+				mql.addEventListener?.('change', (e) => apply(e.matches));
+			}
 		} catch {}
-		setThemeInitialized(true);
+		return () => {
+			if (mql && mql.removeEventListener) mql.removeEventListener('change', () => {});
+		};
 	}, []);
 	return (
 		<motion.nav
@@ -86,18 +105,17 @@ const DesktopNavbar: React.FC<DesktopNavbarProps> = ({
 							variant="ghost"
 							size="icon"
 							onClick={() => {
-								const isDark = document.documentElement.classList.toggle('dark');
+								const newDark = !isDark;
+								setIsDark(newDark);
+								if (newDark) document.documentElement.classList.add('dark');
+								else document.documentElement.classList.remove('dark');
 								try {
-									window.localStorage.setItem('theme', isDark ? 'dark' : 'light');
+									window.localStorage.setItem('theme', newDark ? 'dark' : 'light');
 								} catch {}
 							}}
 							aria-label="Toggle theme"
 						>
-							{document.documentElement.classList.contains('dark') ? (
-								<Moon className="h-5 w-5" />
-							) : (
-								<Sun className="h-5 w-5" />
-							)}
+							{isDark ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
 						</Button>
 
 						<MobileMenu

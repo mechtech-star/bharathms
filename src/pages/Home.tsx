@@ -136,13 +136,13 @@ const Home = () => {
             y: 0,
             scale: 1,
             rotateX: 0,
-            transition: { type: 'spring', stiffness: 260, damping: 26 }
+            transition: { type: 'spring' as const, stiffness: 260, damping: 26 }
         }
     };
 
     const projectImage = {
         hidden: { scale: 1.06, opacity: 0 },
-        visible: { scale: 1, opacity: 1, transition: { duration: 0.8, ease: [0.2, 0.8, 0.2, 1] } }
+        visible: { scale: 1, opacity: 1, transition: { duration: 0.8, ease: [0.2, 0.8, 0.2, 1] as any } }
     };
 
     const capabilities = [
