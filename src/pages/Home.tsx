@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { NoiseBackground } from '@/components/ui/noise-background';
+import { projectsData } from '@/data/projects';
 import {
     Boxes,
     Brain,
@@ -95,6 +97,8 @@ const AnimatedHeading = ({ text, className, variants }: { text: string; classNam
 };
 
 const Home = () => {
+    const navigate = useNavigate();
+    
     // Animation variants
     const fadeInUp = {
         hidden: { opacity: 0, y: 20 },
@@ -175,26 +179,12 @@ const Home = () => {
         '/XR_004.jpg'
     ];
 
+    // Map featured projects from centralized data
     const featuredProjects = [
-        {
-            title: "WebXR Spatial Collaboration",
-            problem: "Enable real-time multi-user collaboration in browser-based XR environments",
-            image: '/webxr.jpg',
-            tags: ["WebXR", "Three.js", "WebSocket", "Spatial Audio"]
-        },
-        {
-            title: "Unity XR Training Platform",
-            problem: "Build immersive training simulations with performance analytics and adaptivity",
-            image: '/Unity.webp',
-            tags: ["Unity", "XR Toolkit", "ML Agents", "Analytics"]
-        },
-        {
-            title: "Procedural Environment System",
-            problem: "Generate optimized 3D environments at runtime with LOD management",
-            image: '/industry machines.jpg',
-            tags: ["Procedural Gen", "Performance", "Asset Pipeline"]
-        }
-    ];
+        projectsData.find(p => p.id === 'unity-training'),
+        projectsData.find(p => p.id === 'webxr-collaboration'),
+        projectsData.find(p => p.id === 'procedural-generator'),
+    ].filter(Boolean);
 
     const techStack = [
         { name: "Unity", icon: <Box className="w-5 h-5" /> },
@@ -268,23 +258,27 @@ const Home = () => {
                             variants={fadeInUp}
                             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                         >
-                            <NoiseBackground
-                                containerClassName="w-fit p-2 rounded-full"
-                                gradientColors={[
-                                    'rgb(255, 100, 150)',
-                                    'rgb(100, 150, 255)',
-                                    'rgb(255, 200, 100)'
-                                ]}
-                            >
-                                <button className="h-full w-full flex items-center justify-center gap-2 cursor-pointer rounded-full bg-linear-to-r from-neutral-100 via-neutral-100 to-white px-4 py-2 text-black shadow-[0px_2px_0px_0px_var(--color-neutral-50)_inset,0px_0.5px_1px_0px_var(--color-neutral-400)] transition-all duration-100 active:scale-98 dark:from-black dark:via-black dark:to-neutral-900 dark:text-white dark:shadow-[0px_1px_0px_0px_var(--color-neutral-950)_inset,0px_1px_0px_0px_var(--color-neutral-800)]">
-                                    <span>View Projects</span>
-                                    <ChevronRight className="w-5 h-5 flex-shrink-0" />
-                                </button>
-                            </NoiseBackground>
-                            <Button size="lg" variant="link" className="text-base px-5 flex items-center gap-2 justify-center">
-                                <Mail className="w-5 h-5 flex-shrink-0" />
-                                <span>Contact</span>
-                            </Button>
+                            <a href="/projects">
+                                <NoiseBackground
+                                    containerClassName="w-fit p-2 rounded-full"
+                                    gradientColors={[
+                                        'rgb(255, 100, 150)',
+                                        'rgb(100, 150, 255)',
+                                        'rgb(255, 200, 100)'
+                                    ]}
+                                >
+                                    <button className="h-full w-full flex items-center justify-center gap-2 cursor-pointer rounded-full bg-linear-to-r from-neutral-100 via-neutral-100 to-white px-4 py-2 text-black shadow-[0px_2px_0px_0px_var(--color-neutral-50)_inset,0px_0.5px_1px_0px_var(--color-neutral-400)] transition-all duration-100 active:scale-98 dark:from-black dark:via-black dark:to-neutral-900 dark:text-white dark:shadow-[0px_1px_0px_0px_var(--color-neutral-950)_inset,0px_1px_0px_0px_var(--color-neutral-800)]">
+                                        <span>View Projects</span>
+                                        <ChevronRight className="w-5 h-5 flex-shrink-0" />
+                                    </button>
+                                </NoiseBackground>
+                            </a>
+                            <a href="/contact">
+                                <Button size="lg" variant="link" className="text-base px-5 flex items-center gap-2 justify-center">
+                                    <Mail className="w-5 h-5 flex-shrink-0" />
+                                    <span>Contact</span>
+                                </Button>
+                            </a>
                         </motion.div>
                     </motion.div>
                 </motion.div>
@@ -299,7 +293,7 @@ const Home = () => {
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={capabilityContainer}
-                        className="flex sm:grid sm:grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory px-4 sm:px-0"
+                        className="flex sm:grid sm:grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory px-4 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
                     >
                         {capabilities.map((capability, index) => (
                             <motion.div
@@ -376,9 +370,9 @@ const Home = () => {
                         variants={staggerContainer}
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                     >
-                        {featuredProjects.map((project, index) => (
+                        {featuredProjects.map((project) => (
                             <motion.div
-                                key={index}
+                                key={project?.id}
                                 variants={projectCard}
                                 whileHover={{ y: -6, scale: 1.02 }}
                                 transition={{ type: 'spring', stiffness: 320, damping: 28 }}
@@ -386,9 +380,9 @@ const Home = () => {
                             >
                                 <Card className="p-4 w-full flex flex-col hover:shadow-lg transition-all duration-300">
                                     <motion.div className="aspect-[16/9] rounded-xl flex items-center justify-center mb-4 overflow-hidden bg-muted/10" variants={projectImage}>
-                                        {project.image ? (
+                                        {project?.imageUrl ? (
                                             <motion.img
-                                                src={project.image}
+                                                src={project.imageUrl}
                                                 alt={project.title}
                                                 className="w-full h-full object-cover block"
                                                 variants={projectImage}
@@ -398,17 +392,21 @@ const Home = () => {
                                         )}
                                     </motion.div>
 
-                                    <h3 className="font-heading text-2xl md:text-xl font-semibold mb-2 tracking-tight leading-snug">{project.title}</h3>
-                                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{project.problem}</p>
+                                    <h3 className="font-heading text-2xl md:text-xl font-semibold mb-2 tracking-tight leading-snug">{project?.title}</h3>
+                                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{project?.description}</p>
 
                                     <div className="flex flex-wrap gap-2 mb-4">
-                                        {project.tags.map((tag, i) => (
+                                        {project?.tags.map((tag, i) => (
                                             <Badge key={i} variant="secondary" className="px-3 py-1 text-sm">{tag}</Badge>
                                         ))}
                                     </div>
 
                                     <div className="mt-auto">
-                                        <Button variant="outline" className="w-full">
+                                        <Button 
+                                            variant="outline" 
+                                            className="w-full"
+                                            onClick={() => navigate(`/projects/${project?.id}`)}
+                                        >
                                             View Case Study
                                             <ArrowRight className="ml-2 w-4 h-4" />
                                         </Button>
@@ -419,16 +417,17 @@ const Home = () => {
                     </motion.div>
 
                     <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="mt-8 text-center">
-                        <a href="/projects">
-                            <Button size="lg" variant="outline">
-                                View All Projects
-                                <ArrowRight className="ml-2 w-4 h-4" />
-                            </Button>
-                        </a>
+                        <Button 
+                            size="lg" 
+                            variant="outline"
+                            onClick={() => navigate('/projects')}
+                        >
+                            View All Projects
+                            <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
                     </motion.div>
                 </div>
             </section>
-
             {/* How I Think */}
             <section className="py-10 md:py-16">
                 <div className="container mx-auto px-4">
@@ -575,10 +574,12 @@ const Home = () => {
                     <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
                         Whether it's a complex XR system, an intelligent platform, or an experimental prototype, I'm interested in hard problems.
                     </p>
-                    <Button size="lg">
-                        Get In Touch
-                        <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
+                    <a href="/contact">
+                        <Button size="lg">
+                            Get In Touch
+                            <ArrowRight className="ml-2 w-5 h-5" />
+                        </Button>
+                    </a>
                 </motion.div>
             </section>
         </div>

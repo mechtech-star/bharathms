@@ -97,7 +97,7 @@ const Index = () => {
             <div className="flex gap-4">
               <Button variant="ghost" size="icon" asChild>
                 <a
-                  href="https://github.com/yourusername"
+                  href="https://github.com/mechtech-star"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
@@ -107,7 +107,7 @@ const Index = () => {
               </Button>
               <Button variant="ghost" size="icon" asChild>
                 <a
-                  href="https://linkedin.com/in/yourprofile"
+                  href="https://www.linkedin.com/in/bharath-m-s-88ba17190/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -116,7 +116,7 @@ const Index = () => {
                 </a>
               </Button>
               <Button variant="ghost" size="icon" asChild>
-                <a href="mailto:your.email@example.com" aria-label="Email">
+                <a href="mailto:bharath.ms@zohomail.com" aria-label="Email">
                   <Mail className="h-5 w-5" />
                 </a>
               </Button>

@@ -161,7 +161,7 @@ const Contact = () => {
               Not sure if your project fits? Reach out anyway. I'm curious.
             </p>
             <Button size="lg" asChild>
-              <a href="mailto:your.email@example.com">
+              <a href="mailto:bharath.ms@zohomail.com">
                 <Mail className="mr-2 w-5 h-5" />
                 Send an Email
               </a>

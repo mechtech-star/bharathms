@@ -52,17 +52,17 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ open, setOpen, navigation, curr
             <div className="flex flex-col items-center gap-4">
               <div className="flex gap-2">
                 <Button variant="ghost" size="icon" asChild>
-                  <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/mechtech-star" target="_blank" rel="noopener noreferrer">
                     <Github className="h-5 w-5" />
                   </a>
                 </Button>
                 <Button variant="ghost" size="icon" asChild>
-                  <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/bharath-m-s-88ba17190/" target="_blank" rel="noopener noreferrer">
                     <Linkedin className="h-5 w-5" />
                   </a>
                 </Button>
                 <Button variant="ghost" size="icon" asChild>
-                  <a href="mailto:your.email@example.com">
+                  <a href="mailto:bharath.ms@zohomail.com">
                     <Mail className="h-5 w-5" />
                   </a>
                 </Button>

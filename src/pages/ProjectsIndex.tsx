@@ -1,75 +1,21 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
+import { projectsData } from '@/data/projects';
 
 const ProjectsIndex = () => {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('All');
 
   const filters = ['All', 'WebXR', 'Unity XR', 'Simulation', 'Experiments'];
 
-  const projects = [
-    {
-      title: "WebXR Spatial Collaboration Platform",
-      description: "Multi-user browser-based XR environment with real-time synchronization, spatial audio, and persistent world state.",
-      tags: ["WebXR", "Three.js", "WebSocket", "Node.js"],
-      category: "WebXR"
-    },
-    {
-      title: "Unity XR Training Simulation",
-      description: "Immersive medical training platform with haptic feedback, performance analytics, and adaptive difficulty systems.",
-      tags: ["Unity", "XR Toolkit", "C#", "ML Agents"],
-      category: "Unity XR"
-    },
-    {
-      title: "Procedural Environment Generator",
-      description: "Runtime terrain and asset generation with LOD management, optimized for mobile XR devices at 72fps.",
-      tags: ["Unity", "Compute Shaders", "Procedural", "Performance"],
-      category: "Unity XR"
-    },
-    {
-      title: "Physics-Based Fluid Simulation",
-      description: "Real-time computational fluid dynamics using SPH method, integrated into Unity with custom rendering pipeline.",
-      tags: ["Simulation", "Compute Shaders", "Physics", "Unity"],
-      category: "Simulation"
-    },
-    {
-      title: "WebGL Shader Playground",
-      description: "Interactive shader editor for WebGL with live preview, parameter tuning, and export to Three.js materials.",
-      tags: ["WebGL", "GLSL", "Three.js", "React"],
-      category: "WebXR"
-    },
-    {
-      title: "AR Object Placement System",
-      description: "Surface detection and physics-aware object placement for mobile AR with occlusion and lighting estimation.",
-      tags: ["ARKit", "ARCore", "Unity", "Computer Vision"],
-      category: "Unity XR"
-    },
-    {
-      title: "Neural Network Visualization",
-      description: "3D interactive visualization of neural network architectures and training processes in real-time.",
-      tags: ["ML", "Three.js", "WebGL", "Data Viz"],
-      category: "Experiments"
-    },
-    {
-      title: "Particle System Benchmark",
-      description: "Performance testing framework comparing GPU particle systems across Unity, Three.js, and Babylon.js.",
-      tags: ["Performance", "Benchmark", "Compute", "Analysis"],
-      category: "Experiments"
-    },
-    {
-      title: "Multi-Agent Path Planning",
-      description: "Crowd simulation system with collision avoidance, navigation meshes, and emergent behavior patterns.",
-      tags: ["Simulation", "AI", "Pathfinding", "Unity"],
-      category: "Simulation"
-    }
-  ];
-
   const filteredProjects = activeFilter === 'All' 
-    ? projects 
-    : projects.filter(p => p.category === activeFilter);
+    ? projectsData 
+    : projectsData.filter(p => p.category === activeFilter);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -130,9 +76,9 @@ const ProjectsIndex = () => {
           variants={staggerContainer}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.map((project) => (
             <motion.div
-              key={index}
+              key={project.id}
               variants={fadeInUp}
               whileHover={{ y: -5 }}
               transition={{ duration: 0.2 }}
@@ -161,7 +107,11 @@ const ProjectsIndex = () => {
                 </div>
 
                 {/* View Case Study Button */}
-                <Button variant="outline" className="w-full group">
+                <Button 
+                  variant="outline" 
+                  className="w-full group"
+                  onClick={() => navigate(`/projects/${project.id}`)}
+                >
                   View Case Study
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
