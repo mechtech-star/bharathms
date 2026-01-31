@@ -47,7 +47,6 @@ const Index = () => {
     const path = map[pageId] ?? '/';
     navigate(path);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

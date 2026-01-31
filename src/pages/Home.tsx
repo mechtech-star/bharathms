@@ -181,8 +181,8 @@ const Home = () => {
 
     // Map featured projects from centralized data
     const featuredProjects = [
-        projectsData.find(p => p.id === 'unity-training'),
-        projectsData.find(p => p.id === 'webxr-collaboration'),
+        projectsData.find(p => p.id === 'xr-training-platform-unity'),
+        projectsData.find(p => p.id === 'xr-training-foundation-webxr'),
         projectsData.find(p => p.id === 'procedural-generator'),
     ].filter(Boolean);
 
@@ -240,7 +240,7 @@ const Home = () => {
                             className="font-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[1.18] md:leading-[1.05] tracking-wide md:tracking-tight"
                         />
 
-                        <motion.p
+                        <motion.div
                             variants={fadeInUp}
                             className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed"
                         >
@@ -252,7 +252,7 @@ const Home = () => {
                                 <span className="py-2 px-3 uppercase tracking-wider border-r border-muted-foreground/10">Unity XR</span>
                                 <span className="py-2 px-3 uppercase tracking-wider">XR Platforms</span>
                             </motion.div>
-                        </motion.p>
+                        </motion.div>
 
                         <motion.div
                             variants={fadeInUp}
@@ -442,7 +442,7 @@ const Home = () => {
                             variants={fadeInUp}
                             className="text-3xl md:text-5xl font-heading font-bold mb-4 text-center tracking-tight"
                         >
-                            <h2 className="font-heading text-3xl md:text-5xl font-bold mb-3 tracking-tight">How I Think</h2>
+                            How I Think
                         </motion.h2>
 
                         <motion.p variants={fadeInUp} className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">

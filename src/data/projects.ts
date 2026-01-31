@@ -1,6 +1,7 @@
 export interface Project {
   id: string;
   title: string;
+  shortTitle?: string;
   description: string;
   longDescription?: string;
   tags: string[];
@@ -27,123 +28,168 @@ export interface Project {
 
 export const projectsData: Project[] = [
   {
-    id: 'webxr-collaboration',
-    title: 'WebXR Spatial Collaboration Platform',
-    description: 'Multi-user browser-based XR environment with real-time synchronization, spatial audio, and persistent world state.',
-    longDescription: 'Real-time multi-user collaboration in browser-based XR environments with spatial audio, hand tracking, and persistent state synchronization.',
-    tags: ['WebXR', 'Three.js', 'WebSocket', 'Node.js', 'Spatial Audio', 'WebRTC'],
-    category: 'WebXR',
-    imageUrl: '/webxr.jpg',
-    demoUrl: 'https://webxr-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/webxr-collaboration',
-    problemStatement: 'Existing collaboration tools for XR require native apps, proprietary platforms, or complex setup. Teams needed a way to meet in shared 3D spaces instantly — accessible through a web browser, supporting multiple simultaneous users, with natural spatial audio and hand-tracked interactions. The system had to work on Quest, desktop VR, and flat screens simultaneously.',
-    systemOverview: [
-      'The platform is built on WebXR APIs for device compatibility, Three.js for rendering, and a custom Node.js server for state synchronization. Client-side prediction and server reconciliation handle network latency. Spatial audio uses Web Audio API with HRTF positioning.',
-      'The architecture separates presentation (Three.js scene), interaction (XR input handling), and networking (WebSocket + WebRTC data channels). This allows graceful degradation — users on flat screens see the same world but with mouse/keyboard controls.'
+    id: 'xr-training-platform-unity',
+    title: 'XR Training Platform (Unity)',
+    shortTitle: 'XR Platform – Unity',
+
+    description:
+      'A production-grade Unity-based XR training platform with analytics, adaptive logic, and CMS-driven content authoring.',
+
+    longDescription:
+      'XR Training Platform (Unity) is a full-scale, production-ready XR training system designed for enterprise and institutional use. Built on Unity and OpenXR, it supports high-fidelity interaction, complex training logic, analytics, and CMS-driven content pipelines, enabling scalable deployment of immersive training programs.',
+
+    category: 'Unity XR',
+    tags: [
+      'Unity',
+      'XR Toolkit',
+      'OpenXR',
+      'XR Training',
+      'Production System',
+      'CMS Driven',
+      'Analytics'
     ],
+
+    imageUrl: '/Unity.webp',
+    demoUrl: 'https://unity-training-demo.example.com',
+    githubUrl: 'https://github.com/mechtech-star/unity-xr-training-platform',
+
+    problemStatement:
+      'Enterprise and institutional training requires immersive, repeatable, and measurable experiences. Existing solutions are either inflexible or difficult to scale. This platform was built to support real-world training needs with high-fidelity interaction, structured analytics, and designer-friendly content workflows.',
+
+    systemOverview: [
+      'Built in Unity using XR Toolkit and OpenXR to support a wide range of VR devices.',
+      'Training experiences are driven by CMS-authored step data, enabling rapid iteration without rebuilding applications.',
+      'Backend systems collect performance metrics, learner progress, and assessment data for dashboards and reporting.',
+      'Designed for long-term maintainability, extensibility, and real-world deployment.'
+    ],
+
     keyDecisions: [
       {
-        title: 'WebXR Over Native',
-        description: 'Choosing WebXR reduced deployment friction massively. No app store approval, instant updates, and users join via URL. Trade-off: slightly lower performance ceiling, but worth it for accessibility.'
+        title: 'Platform Architecture Over Single Simulation',
+        description:
+          'The system is built as a reusable platform capable of hosting multiple training programs rather than a one-off simulation.'
       },
       {
-        title: 'Hybrid WebSocket + WebRTC',
-        description: 'WebSocket handles signaling and state sync. WebRTC data channels handle high-frequency positional updates. This hybrid approach balances reliability with low latency.'
+        title: 'CMS-Driven Training Logic',
+        description:
+          'Decoupling content from code allows designers and domain experts to author and update training scenarios independently.'
       },
       {
-        title: 'Client-Side Prediction',
-        description: 'Movements feel instant locally, reconciled with server state on the next tick. This makes 200ms+ latency tolerable while maintaining synchronized state.'
-      },
-      {
-        title: 'Minimal Asset Complexity',
-        description: 'All 3D models are sub-50k polygons with baked lighting. Textures are compressed. This ensures smooth 72fps even on Quest 2 with 8 simultaneous users.'
+        title: 'Production-Grade Analytics',
+        description:
+          'Performance data is treated as a first-class feature to support certification, evaluation, and curriculum optimization.'
       }
     ],
+
     assetConsiderations: [
       {
-        title: 'Mesh Optimization',
-        description: 'All meshes processed through geometry compression. Shared geometries instanced. Dynamic objects use simplified collision meshes separate from visual meshes.'
+        title: 'High-Fidelity Training Assets',
+        description:
+          'Assets prioritize realism while using LODs and optimization strategies to maintain stable frame rates.'
       },
       {
-        title: 'Material Pipeline',
-        description: 'Standard PBR materials with atlas-packed textures. Normal maps only on hero assets. All materials use the same shader variant to reduce state changes.'
-      },
-      {
-        title: 'Animation System',
-        description: 'Hand tracking animations use blend shapes for finger poses. Avatar bodies use skeletal animation with IK for foot placement. Animations compressed using keyframe reduction.'
-      },
-      {
-        title: 'Performance Budget',
-        description: 'Target: 72fps on Quest 2. Budget: 500k triangles total scene, 100 draw calls max, 2ms physics, 5ms networking per frame. Profiled continuously during development.'
+        title: 'Interaction & Physics Accuracy',
+        description:
+          'Physics, IK, and interaction systems are tuned for real-world procedural accuracy.'
       }
     ],
+
     outcomes: {
       whatWorked: [
-        'WebXR deployment was friction-free — users joined sessions within seconds',
-        'Spatial audio created natural presence; users reported "forgetting it was remote"',
-        'Client-side prediction made interactions feel responsive despite network latency',
-        'Performance budget discipline paid off — stable 72fps with 8 users consistently'
+        'Production-ready architecture suitable for real deployments',
+        'CMS workflows significantly reduced iteration time',
+        'Analytics enabled objective performance evaluation',
+        'Platform supports multiple training domains'
       ],
       whatImprove: [
-        'State reconciliation logic became complex; would use existing framework next time',
-        'Initial load time was 8-12 seconds; progressive loading of assets would help',
-        'Hand tracking wasn\'t reliable on all devices; fallback controller UI needed refinement',
-        'Server scaling required custom load balancing; cloud-native solution would simplify ops'
+        'Asset production pipeline remains resource-intensive',
+        'Device-specific tuning increases QA effort',
+        'Scenario authoring tools need further abstraction'
       ]
     }
   },
   {
-    id: 'unity-training',
-    title: 'Unity XR Training Simulation',
-    description: 'Immersive medical training platform with haptic feedback, performance analytics, and adaptive difficulty systems.',
-    tags: ['Unity', 'XR Toolkit', 'C#', 'ML Agents'],
-    category: 'Unity XR',
-    imageUrl: '/Unity.webp',
-    demoUrl: 'https://unity-training-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/unity-xr-training',
-    problemStatement: 'Medical training requires hands-on practice but traditional methods are costly, dangerous, or limited in scale. Training institutions needed immersive simulations with real-time performance analytics, adaptive difficulty that scales to learner ability, and haptic feedback for procedural training.',
-    systemOverview: [
-      'Built on Unity XR Toolkit with OpenXR backend for cross-platform VR device support. Uses ML Agents for intelligent scenario adaptation. Performance metrics tracked in real-time with ML-based difficulty scaling.',
-      'Architecture combines procedural scenario generation, haptic feedback systems via device-specific APIs, and a cloud backend for analytics. Supports both standalone headsets and PC-based VR.'
+    id: 'xr-training-foundation-webxr',
+    title: 'XR Training Foundation (WebXR)',
+    shortTitle: 'XR Foundation – WebXR',
+
+    description:
+      'A developer-first WebXR foundation for building scalable, browser-based XR training applications.',
+
+    longDescription:
+      'XR Training Foundation (WebXR) is a modular, extensible starter framework designed for developers and designers building scalable XR training experiences in the browser. It provides a production-ready baseline including WebXR setup, interaction handling, state management, and CMS-driven content pipelines, enabling teams to focus on training logic rather than low-level XR infrastructure.',
+
+    category: 'WebXR',
+    tags: [
+      'WebXR',
+      'Three.js',
+      'XR Framework',
+      'Developer Toolkit',
+      'Training Systems',
+      'CMS Driven',
+      'Scalable XR'
     ],
+
+    imageUrl: '/webxr.jpg',
+    demoUrl: 'https://webxr-demo.example.com',
+    githubUrl: 'https://github.com/mechtech-star/webxr-training-foundation',
+
+    problemStatement:
+      'Developers building XR training applications on the web often start from scratch—rebuilding XR setup, input handling, content pipelines, and backend integration each time. This slows development and limits scalability. A reusable, well-structured WebXR foundation was needed to standardize architecture and accelerate development.',
+
+    systemOverview: [
+      'Built on WebXR APIs and Three.js, providing a standardized project structure for browser-based XR training applications.',
+      'Includes a CMS-driven content system allowing designers to define training steps, assets, media, and logic without touching code.',
+      'Backend services manage session state, user progress, analytics hooks, and content delivery.',
+      'Designed for extension: developers can add domain-specific training logic, assessment modules, and analytics layers on top of the foundation.'
+    ],
+
     keyDecisions: [
       {
-        title: 'ML-Driven Difficulty Adaptation',
-        description: 'Instead of static difficulty levels, the system uses ML Agents to analyze learner performance in real-time and dynamically adjust scenario complexity, ensuring optimal challenge.'
+        title: 'Framework Over Application',
+        description:
+          'The project is intentionally designed as a foundation rather than a finished product, enabling reuse across multiple XR training use cases.'
       },
       {
-        title: 'Haptic Feedback Integration',
-        description: 'Critical for procedural training. Integrated with multiple haptic systems (controller haptics, body suits) to provide realistic tactile feedback during simulated procedures.'
+        title: 'CMS-First Content Authoring',
+        description:
+          'Training steps, media, and interactions are authored via a CMS so designers and subject-matter experts can iterate independently.'
       },
       {
-        title: 'Distributed Analytics',
-        description: 'Performance data streamed to cloud backend for institutional dashboards. Enables instructors to monitor learner progress across cohorts without latency.'
+        title: 'Backend-Ready Architecture',
+        description:
+          'All core systems are built assuming backend integration for progress tracking, analytics, and multi-user extension.'
       }
     ],
+
     assetConsiderations: [
       {
-        title: 'Medical Model Accuracy',
-        description: 'High-poly anatomical models with PBR materials. Uses LOD systems to maintain 90fps on medical workstations while preserving surgical detail.'
+        title: 'Reusable Asset Templates',
+        description:
+          'Assets follow strict performance and naming conventions so they can be reused across training scenarios.'
       },
       {
-        title: 'Procedural Animation',
-        description: 'Realistic physics-based deformation for soft tissue simulation. IK rigs for procedural hand animation following learner hand tracking.'
+        title: 'Web Performance Constraints',
+        description:
+          'Low-poly meshes, compressed textures, and baked lighting ensure consistent performance on browser and standalone XR devices.'
       }
     ],
+
     outcomes: {
       whatWorked: [
-        'Institutions reported 40% faster learner progression compared to traditional methods',
-        'Haptic feedback significantly improved procedural muscle memory retention',
-        'ML adaptation kept learners in optimal challenge zone (flow state)',
-        'Cloud analytics enabled data-driven curriculum improvements'
+        'Developers can bootstrap XR training projects rapidly',
+        'CMS-driven workflows reduced designer–developer dependency',
+        'Clean separation between XR infrastructure and training logic',
+        'Architecture scales across different training domains'
       ],
       whatImprove: [
-        'Initial model creation pipeline was labor-intensive; need better medical asset workflows',
-        'Haptic device compatibility matrix grew complex; would standardize earlier',
-        'Network latency affected real-time analytics; edge computing would help'
+        'Documentation needs expansion for third-party developers',
+        'State management complexity grows with advanced scenarios',
+        'Progressive asset loading needs refinement'
       ]
     }
   },
+
   {
     id: 'procedural-generator',
     title: 'Procedural Environment Generator',
