@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -258,7 +258,7 @@ const Home = () => {
                             variants={fadeInUp}
                             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                         >
-                            <a href="/projects">
+                            <Link to="/projects">
                                 <NoiseBackground
                                     containerClassName="w-fit p-2 rounded-full"
                                     gradientColors={[
@@ -272,13 +272,13 @@ const Home = () => {
                                         <ChevronRight className="w-5 h-5 flex-shrink-0" />
                                     </button>
                                 </NoiseBackground>
-                            </a>
-                            <a href="/contact">
+                            </Link>
+                            <Link to="/contact">
                                 <Button size="lg" variant="link" className="text-base px-5 flex items-center gap-2 justify-center">
                                     <Mail className="w-5 h-5 flex-shrink-0" />
                                     <span>Contact</span>
                                 </Button>
-                            </a>
+                            </Link>
                         </motion.div>
                     </motion.div>
                 </motion.div>
@@ -335,11 +335,11 @@ const Home = () => {
                     <div className="container mx-auto mt-6">
                         <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="max-w-4xl mx-auto">
                             <div className="text-center">
-                                <a href="/about">
+                                <Link to="/about">
                                     <Button variant="link" size="lg">
                                         Learn more about me
                                     </Button>
-                                </a>
+                                </Link>
                             </div>
                         </motion.div>
                     </div>
@@ -516,9 +516,9 @@ const Home = () => {
                         </motion.div>
 
                         <motion.div variants={fadeInUp} className="mt-8 text-center">
-                            <a href="/about">
+                            <Link to="/about">
                                 <Button variant="link" size="lg">Read my process</Button>
-                            </a>
+                            </Link>
                         </motion.div>
                     </motion.div>
                 </div>
@@ -574,12 +574,12 @@ const Home = () => {
                     <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
                         Whether it's a complex XR system, an intelligent platform, or an experimental prototype, I'm interested in hard problems.
                     </p>
-                    <a href="/contact">
+                    <Link to="/contact">
                         <Button size="lg">
                             Get In Touch
                             <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
-                    </a>
+                    </Link>
                 </motion.div>
             </section>
         </div>
