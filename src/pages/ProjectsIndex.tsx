@@ -84,9 +84,17 @@ const ProjectsIndex = () => {
               transition={{ duration: 0.2 }}
             >
               <Card className="p-6 h-full flex flex-col hover:shadow-lg transition-shadow">
-                {/* Project Image Placeholder */}
+                {/* Project Image */}
                 <div className="aspect-video bg-muted rounded-xl flex items-center justify-center mb-4 overflow-hidden">
-                  <span className="text-muted-foreground">Image Placeholder</span>
+                  {project.imageUrl ? (
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      className="w-full h-full object-cover block"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground">Image Placeholder</span>
+                  )}
                 </div>
 
                 {/* Project Title */}
