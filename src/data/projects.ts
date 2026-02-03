@@ -9,6 +9,8 @@ export interface Project {
   demoUrl?: string;
   githubUrl?: string;
   imageUrl?: string;
+  imageUrls?: string[];
+  videoUrl?: string;
   // Detailed content for project detail page
   problemStatement?: string;
   systemOverview?: string[];
@@ -30,7 +32,7 @@ export const projectsData: Project[] = [
   {
     id: 'xr-training-platform-unity',
     title: 'XR Training Platform (Unity)',
-    shortTitle: 'XR Platform – Unity',
+    shortTitle: 'XR Platform - Unity',
 
     description:
       'A production-grade Unity-based XR training platform with analytics, adaptive logic, and CMS-driven content authoring.',
@@ -50,6 +52,8 @@ export const projectsData: Project[] = [
     ],
 
     imageUrl: '/Unity.webp',
+    imageUrls: ['/Unity.webp', '/Unity-2.webp', '/Unity-3.webp'],
+    videoUrl: '/videos/unity-training-demo.mp4',
     demoUrl: 'https://unity-training-demo.example.com',
     githubUrl: 'https://github.com/mechtech-star/unity-xr-training-platform',
 
@@ -108,10 +112,106 @@ export const projectsData: Project[] = [
       ]
     }
   },
+
+  {
+    id: 'productstudio3d',
+    title: 'ProductStudio3D',
+    description: 'A fully client-side WebGL product configurator built with React Three Fiber.',
+    longDescription:
+      'ProductStudio3D is a browser-based 3D product configurator that runs entirely on the client. It enables users to upload, inspect, configure, and export 3D models without relying on any backend or server-side processing.',
+
+    category: 'WebXR',
+    tags: [
+      'WebGL',
+      'Three.js',
+      'React Three Fiber',
+      '3D Configurator',
+      'Frontend Only',
+      'GLB',
+      'Zustand'
+    ],
+
+    imageUrl: '/ProductStudio3D.jpg',
+    imageUrls: ['/ProductStudio3D_Architecture.jpg', '/ProductStudio3D-2.jpg', '/ProductStudio3D-3.jpg'],
+    videoUrl: '/videos/productstudio3d-demo.mp4',
+    demoUrl: 'https://product-studio-3-d.vercel.app/',
+    githubUrl: 'https://github.com/mechtech-star/product_studio_3D',
+
+    problemStatement:
+      'Most 3D product configurators depend on backend pipelines for model processing, storage, and export, which increases complexity, cost, and latency. ProductStudio3D explores whether a complete product configuration workflow - including import, editing, preview, and export - can be achieved entirely in the browser using modern WebGL and frontend tooling.',
+
+    systemOverview: [
+      'ProductStudio3D is architected around a single React Three Fiber canvas that hosts the entire 3D scene. All models, lights, environments, and helpers are composed declaratively while still allowing imperative control where necessary.',
+      'A unified GLB pipeline ensures that all supported formats (GLB, GLTF, FBX, OBJ) are converted and processed consistently. Converted assets are cached in memory to reduce reload times and avoid repeated parsing.',
+      'Application state is managed using Zustand, storing direct references to Three.js meshes, materials, and animation mixers for immediate scene mutations without unnecessary React re-renders.'
+    ],
+
+    keyDecisions: [
+      {
+        title: 'Frontend-only architecture',
+        description:
+          'The system intentionally avoids any backend services to demonstrate how far modern browsers can go in handling real-world 3D workflows entirely on the client.'
+      },
+      {
+        title: 'Unified GLB rendering pipeline',
+        description:
+          'All imported formats are normalized into GLB to simplify rendering, editing, animation handling, and export logic.'
+      },
+      {
+        title: 'State-driven scene control',
+        description:
+          'Zustand stores direct Three.js object references, enabling instant updates to materials, visibility, and animations without expensive reconciliation.'
+      },
+      {
+        title: 'Studio lighting by default',
+        description:
+          'HDRI-based studio lighting was chosen to provide realistic material previews comparable to professional product visualization tools.'
+      }
+    ],
+
+    assetConsiderations: [
+      {
+        title: 'Model format normalization',
+        description:
+          'Non-GLB formats are converted client-side to ensure predictable material handling, animation playback, and export behavior.'
+      },
+      {
+        title: 'Memory management',
+        description:
+          'Explicit disposal of geometries, materials, and textures prevents GPU memory leaks when swapping or reloading models.'
+      },
+      {
+        title: 'Material & texture inspection',
+        description:
+          'The system detects common PBR texture maps (base color, normal, roughness, metallic, AO) to provide clear visibility into asset quality.'
+      },
+      {
+        title: 'Animation handling',
+        description:
+          'Animation clips are parsed and managed via a dedicated mixer hook, allowing controlled playback, speed adjustment, and inspection.'
+      }
+    ],
+
+    outcomes: {
+      whatWorked: [
+        'Achieved a fully client-side 3D pipeline with no backend dependency',
+        'Unified all imports into a single GLB-based workflow for consistent behavior',
+        'Direct Three.js object references in state enabled fast, intuitive interactions',
+        'Studio-style HDRI lighting significantly improved material preview quality',
+        'Exporting configured scenes back to GLB validated real-world usability'
+      ],
+      whatImprove: [
+        'Configuration persistence (presets / saved states) could improve usability',
+        'Material editing could be extended with full PBR parameter controls',
+        'Performance metrics and optimization tooling would help with large models',
+        'Presentation features like snapshot galleries could enhance demos'
+      ]
+    }
+  },
   {
     id: 'xr-training-foundation-webxr',
     title: 'XR Training Foundation (WebXR)',
-    shortTitle: 'XR Foundation – WebXR',
+    shortTitle: 'XR Foundation - WebXR',
 
     description:
       'A developer-first WebXR foundation for building scalable, browser-based XR training applications.',
@@ -131,11 +231,13 @@ export const projectsData: Project[] = [
     ],
 
     imageUrl: '/webxr.jpg',
+    imageUrls: ['/webxr.jpg', '/webxr-2.jpg', '/webxr-3.jpg'],
+    videoUrl: '/videos/webxr-demo.mp4',
     demoUrl: 'https://webxr-demo.example.com',
     githubUrl: 'https://github.com/mechtech-star/webxr-training-foundation',
 
     problemStatement:
-      'Developers building XR training applications on the web often start from scratch—rebuilding XR setup, input handling, content pipelines, and backend integration each time. This slows development and limits scalability. A reusable, well-structured WebXR foundation was needed to standardize architecture and accelerate development.',
+      'Developers building XR training applications on the web often start from scratch - rebuilding XR setup, input handling, content pipelines, and backend integration each time. This slows development and limits scalability. A reusable, well-structured WebXR foundation was needed to standardize architecture and accelerate development.',
 
     systemOverview: [
       'Built on WebXR APIs and Three.js, providing a standardized project structure for browser-based XR training applications.',
@@ -178,7 +280,7 @@ export const projectsData: Project[] = [
     outcomes: {
       whatWorked: [
         'Developers can bootstrap XR training projects rapidly',
-        'CMS-driven workflows reduced designer–developer dependency',
+        'CMS-driven workflows reduced designer-developer dependency',
         'Clean separation between XR infrastructure and training logic',
         'Architecture scales across different training domains'
       ],
@@ -197,6 +299,8 @@ export const projectsData: Project[] = [
     tags: ['Unity', 'Compute Shaders', 'Procedural', 'Performance'],
     category: 'Unity XR',
     imageUrl: '/industry machines.jpg',
+    imageUrls: ['/industry machines.jpg', '/industry-machines-2.jpg', '/industry-machines-3.jpg'],
+    videoUrl: '/videos/procedural-demo.mp4',
     demoUrl: 'https://procedural-demo.example.com',
     githubUrl: 'https://github.com/mechtech-star/procedural-generator',
     problemStatement: 'Mobile XR applications are severely memory-constrained. Pre-authored environments consume gigabytes, making deployment impractical. Needed a solution to generate diverse, complex environments at runtime using minimal asset storage while maintaining 72fps on Quest-class hardware.',
@@ -241,69 +345,6 @@ export const projectsData: Project[] = [
         'Plant distribution looked unnatural initially; needed better sampling heuristics'
       ]
     }
-  },
-  {
-    id: 'procedural-generator',
-    title: 'Procedural Environment Generator',
-    description: 'Runtime terrain and asset generation with LOD management, optimized for mobile XR devices at 72fps.',
-    tags: ['Unity', 'Compute Shaders', 'Procedural', 'Performance'],
-    category: 'Unity XR',
-    demoUrl: 'https://procedural-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/procedural-generator',
-  },
-  {
-    id: 'fluid-simulation',
-    title: 'Physics-Based Fluid Simulation',
-    description: 'Real-time computational fluid dynamics using SPH method, integrated into Unity with custom rendering pipeline.',
-    tags: ['Simulation', 'Compute Shaders', 'Physics', 'Unity'],
-    category: 'Simulation',
-    demoUrl: 'https://fluid-sim-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/fluid-simulation',
-  },
-  {
-    id: 'shader-playground',
-    title: 'WebGL Shader Playground',
-    description: 'Interactive shader editor for WebGL with live preview, parameter tuning, and export to Three.js materials.',
-    tags: ['WebGL', 'GLSL', 'Three.js', 'React'],
-    category: 'WebXR',
-    demoUrl: 'https://shader-playground.example.com',
-    githubUrl: 'https://github.com/mechtech-star/shader-playground',
-  },
-  {
-    id: 'ar-placement',
-    title: 'AR Object Placement System',
-    description: 'Surface detection and physics-aware object placement for mobile AR with occlusion and lighting estimation.',
-    tags: ['ARKit', 'ARCore', 'Unity', 'Computer Vision'],
-    category: 'Unity XR',
-    demoUrl: 'https://ar-placement-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/ar-placement',
-  },
-  {
-    id: 'nn-visualization',
-    title: 'Neural Network Visualization',
-    description: '3D interactive visualization of neural network architectures and training processes in real-time.',
-    tags: ['ML', 'Three.js', 'WebGL', 'Data Viz'],
-    category: 'Experiments',
-    demoUrl: 'https://nn-viz.example.com',
-    githubUrl: 'https://github.com/mechtech-star/nn-visualization',
-  },
-  {
-    id: 'particle-benchmark',
-    title: 'Particle System Benchmark',
-    description: 'Performance testing framework comparing GPU particle systems across Unity, Three.js, and Babylon.js.',
-    tags: ['Performance', 'Benchmark', 'Compute', 'Analysis'],
-    category: 'Experiments',
-    demoUrl: 'https://particle-benchmark.example.com',
-    githubUrl: 'https://github.com/mechtech-star/particle-benchmark',
-  },
-  {
-    id: 'path-planning',
-    title: 'Multi-Agent Path Planning',
-    description: 'Crowd simulation system with collision avoidance, navigation meshes, and emergent behavior patterns.',
-    tags: ['Simulation', 'AI', 'Pathfinding', 'Unity'],
-    category: 'Simulation',
-    demoUrl: 'https://path-planning-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/path-planning',
   },
 ];
 

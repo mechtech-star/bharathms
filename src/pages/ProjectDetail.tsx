@@ -111,16 +111,34 @@ const ProjectDetail = () => {
           variants={fadeInUp}
           className="mb-16"
         >
-          <div className="aspect-video bg-muted rounded-xl flex items-center justify-center mb-4">
-            <span className="text-muted-foreground text-lg">Video Placeholder</span>
-          </div>
+          {currentProject.videoUrl ? (
+            <div className="aspect-video mb-4">
+              <video
+                src={currentProject.videoUrl}
+                controls
+                className="w-full h-full object-cover rounded-xl"
+              />
+            </div>
+          ) : (
+            <div className="aspect-video mb-4">
+              <img
+                src={currentProject.imageUrls?.[0] ?? currentProject.imageUrl}
+                alt={currentProject.title}
+                className="w-full h-full object-cover rounded-xl"
+              />
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-4">
-            <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-              <span className="text-muted-foreground text-sm">Image Placeholder</span>
-            </div>
-            <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-              <span className="text-muted-foreground text-sm">Image Placeholder</span>
-            </div>
+            {[currentProject.imageUrls?.[1] ?? null, currentProject.imageUrls?.[2] ?? null].map((src, i) => (
+              <div key={i} className="aspect-video bg-muted rounded-lg flex items-center justify-center overflow-hidden">
+                {src ? (
+                  <img src={src} alt={`${currentProject.title} ${i + 2}`} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-muted-foreground text-sm">Image Placeholder</span>
+                )}
+              </div>
+            ))}
           </div>
         </motion.section>
 
@@ -208,9 +226,19 @@ const ProjectDetail = () => {
           </motion.div>
 
           <motion.div variants={fadeInUp}>
-            <div className="aspect-video bg-muted rounded-xl flex items-center justify-center">
-              <span className="text-muted-foreground">Architecture Diagram Placeholder</span>
-            </div>
+            {currentProject.imageUrls?.[0] || currentProject.imageUrl ? (
+              <div className="aspect-video bg-muted rounded-xl flex items-center justify-center overflow-hidden">
+                <img
+                  src={currentProject.imageUrls?.[0] ?? currentProject.imageUrl}
+                  alt={`${currentProject.title} architecture`}
+                  className="w-full h-full object-cover rounded-xl"
+                />
+              </div>
+            ) : (
+              <div className="aspect-video bg-muted rounded-xl flex items-center justify-center">
+                <span className="text-muted-foreground">Architecture Image Placeholder</span>
+              </div>
+            )}
           </motion.div>
         </motion.section>
 
