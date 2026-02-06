@@ -14,6 +14,21 @@ const ProjectDetail = () => {
   // Get project from centralized data
   const currentProject = getProjectById(id || 'webxr-collaboration');
 
+  const isYouTube = (url?: string) => {
+    if (!url) return false;
+    return url.includes('youtube.com') || url.includes('youtu.be');
+  };
+
+  const getYouTubeEmbedUrl = (url: string) => {
+    const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    const id = match ? match[1] : '';
+    return id ? `https://www.youtube.com/embed/${id}` : url;
+  };
+
+  // Derived media sources
+  const mainMediaSrc = currentProject?.videoUrl ?? currentProject?.imageUrls?.[0] ?? currentProject?.imageUrl;
+  const galleryImages = [currentProject?.imageUrls?.[1], currentProject?.imageUrls?.[2]].filter(Boolean) as string[];
+
   if (!currentProject) {
     return (
       <div className="min-h-screen py-20 flex items-center justify-center">
@@ -111,35 +126,43 @@ const ProjectDetail = () => {
           variants={fadeInUp}
           className="mb-16"
         >
-          {currentProject.videoUrl ? (
+          {mainMediaSrc && (
             <div className="aspect-video mb-4">
-              <video
-                src={currentProject.videoUrl}
-                controls
-                className="w-full h-full object-cover rounded-xl"
-              />
-            </div>
-          ) : (
-            <div className="aspect-video mb-4">
-              <img
-                src={currentProject.imageUrls?.[0] ?? currentProject.imageUrl}
-                alt={currentProject.title}
-                className="w-full h-full object-cover rounded-xl"
-              />
+              {currentProject.videoUrl ? (
+                isYouTube(currentProject.videoUrl) ? (
+                  <iframe
+                    src={getYouTubeEmbedUrl(currentProject.videoUrl)}
+                    title={currentProject.title}
+                    className="w-full h-full rounded-xl"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    src={currentProject.videoUrl}
+                    controls
+                    className="w-full h-full object-cover rounded-xl"
+                  />
+                )
+              ) : (
+                <img
+                  src={currentProject.imageUrls?.[0] ?? currentProject.imageUrl}
+                  alt={currentProject.title}
+                  className="w-full h-full object-cover rounded-xl"
+                />
+              )}
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-4">
-            {[currentProject.imageUrls?.[1] ?? null, currentProject.imageUrls?.[2] ?? null].map((src, i) => (
-              <div key={i} className="aspect-video bg-muted rounded-lg flex items-center justify-center overflow-hidden">
-                {src ? (
+          {galleryImages.length > 0 && (
+            <div className="grid grid-cols-2 gap-4">
+              {galleryImages.map((src, i) => (
+                <div key={i} className="aspect-video bg-muted rounded-lg flex items-center justify-center overflow-hidden">
                   <img src={src} alt={`${currentProject.title} ${i + 2}`} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-muted-foreground text-sm">Image Placeholder</span>
-                )}
-              </div>
-            ))}
-          </div>
+                </div>
+              ))}
+            </div>
+          )}
         </motion.section>
 
         <Separator className="my-16" />
@@ -226,17 +249,13 @@ const ProjectDetail = () => {
           </motion.div>
 
           <motion.div variants={fadeInUp}>
-            {currentProject.imageUrls?.[0] || currentProject.imageUrl ? (
+            {(currentProject.imageUrls?.[0] || currentProject.imageUrl) && (
               <div className="aspect-video bg-muted rounded-xl flex items-center justify-center overflow-hidden">
                 <img
                   src={currentProject.imageUrls?.[0] ?? currentProject.imageUrl}
                   alt={`${currentProject.title} architecture`}
                   className="w-full h-full object-cover rounded-xl"
                 />
-              </div>
-            ) : (
-              <div className="aspect-video bg-muted rounded-xl flex items-center justify-center">
-                <span className="text-muted-foreground">Architecture Image Placeholder</span>
               </div>
             )}
           </motion.div>

@@ -52,10 +52,6 @@ export const projectsData: Project[] = [
     ],
 
     imageUrl: '/Unity.webp',
-    imageUrls: ['/Unity.webp', '/Unity-2.webp', '/Unity-3.webp'],
-    videoUrl: '/videos/unity-training-demo.mp4',
-    demoUrl: 'https://unity-training-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/unity-xr-training-platform',
 
     problemStatement:
       'Enterprise and institutional training requires immersive, repeatable, and measurable experiences. Existing solutions are either inflexible or difficult to scale. This platform was built to support real-world training needs with high-fidelity interaction, structured analytics, and designer-friendly content workflows.',
@@ -132,8 +128,8 @@ export const projectsData: Project[] = [
     ],
 
     imageUrl: '/ProductStudio3D.jpg',
-    imageUrls: ['/ProductStudio3D_Architecture.jpg', '/ProductStudio3D-2.jpg', '/ProductStudio3D-3.jpg'],
-    videoUrl: '/videos/productstudio3d-demo.mp4',
+    imageUrls: ['/ProductStudio3D_Architecture.jpg', '/ProductStudio3D_2.jpg', '/ProductStudio3D_3.jpg'],
+    videoUrl: 'https://www.youtube.com/watch?v=g7YoYVUIiCs',
     demoUrl: 'https://product-studio-3-d.vercel.app/',
     githubUrl: 'https://github.com/mechtech-star/product_studio_3D',
 
@@ -231,10 +227,6 @@ export const projectsData: Project[] = [
     ],
 
     imageUrl: '/webxr.jpg',
-    imageUrls: ['/webxr.jpg', '/webxr-2.jpg', '/webxr-3.jpg'],
-    videoUrl: '/videos/webxr-demo.mp4',
-    demoUrl: 'https://webxr-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/webxr-training-foundation',
 
     problemStatement:
       'Developers building XR training applications on the web often start from scratch - rebuilding XR setup, input handling, content pipelines, and backend integration each time. This slows development and limits scalability. A reusable, well-structured WebXR foundation was needed to standardize architecture and accelerate development.',
@@ -299,10 +291,6 @@ export const projectsData: Project[] = [
     tags: ['Unity', 'Compute Shaders', 'Procedural', 'Performance'],
     category: 'Unity XR',
     imageUrl: '/industry machines.jpg',
-    imageUrls: ['/industry machines.jpg', '/industry-machines-2.jpg', '/industry-machines-3.jpg'],
-    videoUrl: '/videos/procedural-demo.mp4',
-    demoUrl: 'https://procedural-demo.example.com',
-    githubUrl: 'https://github.com/mechtech-star/procedural-generator',
     problemStatement: 'Mobile XR applications are severely memory-constrained. Pre-authored environments consume gigabytes, making deployment impractical. Needed a solution to generate diverse, complex environments at runtime using minimal asset storage while maintaining 72fps on Quest-class hardware.',
     systemOverview: [
       'Uses GPU compute shaders for terrain generation (Perlin noise, erosion simulation) and procedural vegetation placement. Asset templates are sparse and instanced across the scene.',
