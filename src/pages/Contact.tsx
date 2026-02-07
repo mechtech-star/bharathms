@@ -29,8 +29,8 @@ const Contact = () => {
     {
       icon: <Mail className="w-6 h-6" />,
       label: "Email",
-      value: "bharath.ms@zohomail.com",
-      link: "mailto:bharath.ms@zohomail.com",
+      value: "bharath.ms@zohomail.in",
+      link: "mailto:bharath.ms@zohomail.in",
       description: "Best for project inquiries and detailed discussions"
     },
     {
